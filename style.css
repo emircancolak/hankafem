@@ -76,9 +76,13 @@ body {
     background-image: url('cilveli-kahve.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center 50%;
-    padding: 150px 20px 40px; /* Yüksekliği azalttık: 300px -> 150px */
-    margin: 0 50px;
+    background-position: center center;
+    padding-top: 100%; /* Makes it square - 1:1 aspect ratio */
+    width: 100%;
+    max-width: 400px; /* Maximum width for the square */
+    margin: 0 auto; /* Center the square */
+    border-radius: 12px; /* Optional: rounded corners */
+    overflow: hidden; /* Keeps the content inside border radius */
 }
 
 .header-content::before {
@@ -93,13 +97,17 @@ body {
 }
 
 .header p {
+    position: absolute;
+    bottom: 20px; /* Position text at bottom */
+    left: 0;
+    right: 0;
     margin: 0;
     font-size: 24px;
     color: var(--gold);
     font-style: italic;
-    position: relative;
     z-index: 2;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    padding: 0 15px;
 }
 
 .feature-image {
@@ -273,8 +281,7 @@ main, .menu-container {
 /* Responsive ayarlar */
 @media (max-width: 600px) {
    .header-content {
-        padding: 100px 15px 25px; /* Mobile özel padding */
-        margin: 0 -10px;
+        max-width: 300px; /* Smaller square on mobile */
     }
     .header-left {
         gap: 10px;
@@ -290,8 +297,9 @@ main, .menu-container {
         margin-top: 3px;
     }
     
-    .header p {
+   .header p {
         font-size: 20px;
+        bottom: 15px;
     }
     
     .feature-image {
