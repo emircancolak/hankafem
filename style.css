@@ -53,8 +53,8 @@ body {
 }
 
 .logo {
-    width: 150%; /* 185%'ten düşürdük */
-    height: 150%; /* 185%'ten düşürdük */
+    width: 185%; /* 185%'ten düşürdük */
+    height: 185%; /* 185%'ten düşürdük */
     object-fit: contain;
     display: block;
     background: transparent;
@@ -76,9 +76,9 @@ body {
     background-image: url('cilveli-kahve.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center 40%;
+    background-position: center 50%;
     padding: 150px 20px 40px; /* Yüksekliği azalttık: 300px -> 150px */
-    margin: 0 -20px;
+    margin: 0 50px;
 }
 
 .header-content::before {
