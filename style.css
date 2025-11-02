@@ -31,14 +31,16 @@ body {
 
 .header-left {
     display: flex;
+    flex-direction: column; /* Dikey hizalama için değiştirildi */
     align-items: center;
-    gap: 15px;
+    justify-content: center;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
 .logo-wrapper {
-    width: 80px;
-    height: 80px;
+    width: 100px; /* Logoyu biraz büyüttük */
+    height: 100px;
     border-radius: 50%;
     border: 2px solid var(--gold);
     overflow: hidden;
@@ -51,35 +53,32 @@ body {
 }
 
 .logo {
-    width: 185%;
-    height: 185%;
+    width: 150%; /* 185%'ten düşürdük */
+    height: 150%; /* 185%'ten düşürdük */
     object-fit: contain;
     display: block;
     background: transparent;
 }
 
 .header h1 {
-    margin: 0;
-    font-size: 24px;
+    margin: 5px 0 0 0; /* Üst margin eklendi */
+    font-size: 22px;
     color: var(--gold);
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: 600;
+    text-align: center;
 }
 
 .header-content {
     text-align: center;
     position: relative;
-    /* Eski 'background' satırını silin */
-    background-image: url('cilveli-kahve.jpg'); /* Resim dosyasının adını kullanın */
+    background-image: url('cilveli-kahve.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-
-    /* YENİ KONUM AYARI - %50 ile başlayın ve istediğiniz görünüme gelene kadar 10%, 20% gibi değerlerle oynayın */
-    background-position: center 60%; 
-    
-    padding: 300px 20px 60px;
-    margin: 0 50px;
+    background-position: center 40%;
+    padding: 150px 20px 40px; /* Yüksekliği azalttık: 300px -> 150px */
+    margin: 0 -20px;
 }
 
 .header-content::before {
@@ -273,20 +272,22 @@ main, .menu-container {
 
 /* Responsive ayarlar */
 @media (max-width: 600px) {
-    .header-content {
-        padding: 80px 15px 25px;
+   .header-content {
+        padding: 100px 15px 25px; /* Mobile özel padding */
+        margin: 0 -10px;
     }
     .header-left {
         gap: 10px;
     }
     
     .logo-wrapper {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
     }
     
     .header h1 {
-        font-size: 20px;
+        font-size: 18px;
+        margin-top: 3px;
     }
     
     .header p {
