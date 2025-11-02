@@ -6,7 +6,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const categorySection = this.closest('.category');
             const menuItems = categorySection.querySelector('.menu-items');
             
-            if (menuItems.style.display === 'block' || menuItems.style.display === '') {
+            // Tüm diğer açık menüleri kapat
+            categoryHeaders.forEach(otherHeader => {
+                if (otherHeader !== header) {
+                    const otherSection = otherHeader.closest('.category');
+                    const otherItems = otherSection.querySelector('.menu-items');
+                    otherItems.style.display = 'none';
+                    otherHeader.classList.remove('active');
+                }
+            });
+            
+            // Tıklanan menüyü aç/kapat
+            if (menuItems.style.display === 'block') {
                 menuItems.style.display = 'none';
                 header.classList.remove('active');
             } else {

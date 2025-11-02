@@ -1,97 +1,194 @@
 /* Ana Stil */
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    max-width: 100vw;
-    overflow-x: hidden;
-    padding: 0;
-    margin: 0;
-    background-color: #000000;
-    color: #ffffff;
+:root {
+    --bg: #0a0a0a;
+    --panel: #161616;
+    --muted: #222;
+    --gold: #d4af37;
+    --accent-shadow: rgba(212,175,55,0.12);
 }
 
-/* Header Bölümü */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: #fff;
+    max-width: 100vw;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+/* Header */
 .header {
-    background-color: #000000;
-    padding: 30px 10px;
-    text-align: center;
-    border-bottom: 1px solid #333;
-    max-width: 100%;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.logo-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
+    box-shadow: 0 4px 15px rgba(212,175,55,0.18);
+    padding: 4px;
 }
 
 .logo {
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    margin: 0 auto 25px auto;
-    border: 2px solid #d4af37;
-    display: block;
+    width: 185%;
+    height: 185%;
     object-fit: contain;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-    padding: 0;
-    background-color: transparent;
+    display: block;
+    background: transparent;
 }
 
 .header h1 {
-    margin: 0 0 10px 0;
-    font-size: 32px;
-    color: #d4af37;
+    margin: 0;
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 1px;
     text-transform: uppercase;
-    letter-spacing: 3px;
     font-weight: 600;
+}
+
+.header-content {
+    text-align: center;
+    position: relative;
+    /* Eski 'background' satırını silin */
+    background-image: url('cilveli-kahve.jpg'); /* Resim dosyasının adını kullanın */
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    /* YENİ KONUM AYARI - %50 ile başlayın ve istediğiniz görünüme gelene kadar 10%, 20% gibi değerlerle oynayın */
+    background-position: center 60%; 
+    
+    padding: 300px 20px 60px;
+    margin: 0 50px;
+}
+
+.header-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.9));
+    z-index: 1;
 }
 
 .header p {
     margin: 0;
-    font-size: 20px;
-    color: #d4af37;
+    font-size: 24px;
+    color: var(--gold);
     font-style: italic;
-    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
-/* Menü Konteyner */
+.feature-image {
+    display: none;
+}
+
+/* Ana içerik */
 .menu-container {
-    padding: 15px 10px;
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 840px;
+    margin: 22px auto;
+    padding: 0 14px;
 }
 
-/* Kategori Stilleri */
+/* Kategori kutuları */
 .category {
-    margin-bottom: 20px;
-    background-color: #111111;
+    /* background: var(--panel); - Eski */
+    /* YENİ: Hafif bir gradyan ekleyerek derinlik katın */
+    background: linear-gradient(145deg, var(--panel), #0a0a0a); 
+    
+    border: 1px solid var(--gold);
     border-radius: 12px;
+    margin-bottom: 34px;
     overflow: hidden;
-    border: 1px solid #d4af37;
-    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5); /* Gölgeyi daha belirgin yapın */
 }
 
+/* Kategori başlığı */
 .category h2 {
-    font-size: 20px;
     margin: 0;
-    padding: 15px;
-    background-color: #1a1a1a;
-    border-bottom: 1px solid #d4af37;
-    cursor: pointer;
+    padding: 14px 18px;
+    background: rgba(0,0,0,0.3);
+    color: var(--gold);
     display: flex;
     align-items: center;
-    min-height: 44px;
-    color: #d4af37;
-    text-transform: uppercase;
+    min-height: 52px;
+    font-size: 18px;
     letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: background .22s, color .22s;
 }
 
-/* Menü Öğeleri */
+/* + / - göstergesi */
+.category h2::after {
+    content: '+';
+    margin-left: auto;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--gold);
+}
+
+.category h2.active::after {
+    content: '-';
+}
+/* Kategori başlığı için aktif durum */
+.category h2.active {
+    background: var(--gold);
+    color: var(--bg);
+    transition: all 0.3s ease;
+}
+
+.category h2.active::after {
+    content: '-';
+    color: var(--bg);
+}
+
+/* Hover efekti ekleyelim */
+.category h2:hover {
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.category h2.active:hover {
+    background: #c4a133;
+}
+
+/* Menü öğeleri */
 .menu-items {
-    padding: 15px;
+    padding: 12px 16px;
     display: none;
 }
 
 .menu-item {
-    padding: 12px 0;
-    border-bottom: 1px solid #333;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
 }
 
 .menu-item:last-child {
@@ -99,133 +196,127 @@ body {
 }
 
 .menu-item h3 {
-    font-size: 16px;
     margin: 0;
-    color: #ffffff;
+    font-size: 16px;
     font-weight: 500;
+    color: #fff;
+    letter-spacing: 0.4px;
 }
 
 .menu-item .price {
     font-size: 16px;
-    font-weight: bold;
-    color: #d4af37;
-    padding-left: 15px;
+    color: var(--gold);
+    font-weight: 700;
+    margin-left: 12px;
+    white-space: nowrap;
 }
 
-/* Footer Bölümü */
+/* Footer */
 .footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #111111;
-    margin-top: 20px;
-    border-top: 1px solid #d4af37;
     position: fixed;
+    left: 0;
+    right: 0;
     bottom: 0;
-    width: 100%;
+    background: var(--panel);
+    border-top: 1px solid var(--gold);
+    padding: 14px 12px;
+    text-align: center;
+    z-index: 40;
 }
 
 .social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: inline-flex;
     gap: 10px;
-    color: #d4af37;
+    align-items: center;
+    color: var(--gold);
     text-decoration: none;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 .instagram-logo {
-    width: 24px;
-    height: 24px;
-    filter: invert(70%) sepia(65%) saturate(385%) hue-rotate(6deg) brightness(89%) contrast(87%);
+    width: 26px;
+    height: 26px;
+    display: inline-block;
 }
 
-/* Animasyonlar ve Geçişler */
-.category h2 {
-    transition: all 0.3s ease;
-}
-
+/* Etkileşimler */
 .category h2:active {
-    background-color: #222222;
-}
-
-.category h2::after {
-    content: '+';
-    margin-left: auto;
-    font-size: 24px;
-}
-
-.category h2.active::after {
-    content: '-';
-}
-
-.menu-item {
-    transition: transform 0.2s ease;
+    background: rgba(255,255,255,0.02);
 }
 
 .menu-item:active {
-    transform: scale(0.98);
+    transform: scale(.995);
 }
 
-/* Performans Optimizasyonları */
-* {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    box-sizing: border-box;
-}
-
-/* Mobil için düzenleme */
-@media (max-width: 480px) {
-    .logo {
-        width: 180px;
-        height: 180px;
-        margin: 0 auto 20px auto;
-    }
-
-    .header h1 {
-        font-size: 26px;
-    }
-
-    .header p {
-        font-size: 16px;
-    }
-
-    .category h2 {
-        font-size: 18px;
-    }
-
-    .menu-item h3 {
-        font-size: 15px;
-    }
-
-    .menu-item .price {
-        font-size: 15px;
-    }
-
-    .footer {
-        padding: 15px;
-    }
-}
-
-/* Scrollbar Özelleştirmesi */
+/* Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #000000;
+    background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #d4af37;
-    border-radius: 4px;
+    background: var(--gold);
+    border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: #b4941f;
 }
 
-/* Footer margin fix */
-main {
-    margin-bottom: 80px;
+/* İçerik ile footer arası boşluk */
+main, .menu-container {
+    margin-bottom: 150px;
+}
+
+/* Responsive ayarlar */
+@media (max-width: 600px) {
+    .header-content {
+        padding: 80px 15px 25px;
+    }
+    .header-left {
+        gap: 10px;
+    }
+    
+    .logo-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .header h1 {
+        font-size: 20px;
+    }
+    
+    .header p {
+        font-size: 20px;
+    }
+    
+    .feature-image {
+        max-width: 100%;
+    }
+    
+    .category h2 {
+        font-size: 16px;
+        min-height: 48px;
+        padding: 12px 14px;
+    }
+    
+    .menu-item h3 {
+        font-size: 15px;
+    }
+    
+    .menu-item .price {
+        font-size: 15px;
+    }
+    
+    .menu-container {
+        padding: 0 12px;
+        margin: 18px auto 0;
+    }
+    
+    main, .menu-container {
+        margin-bottom: 180px;
+    }
 }
