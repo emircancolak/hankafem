@@ -1,0 +1,231 @@
+/* Ana Stil */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    max-width: 100vw;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* Header Bölümü */
+.header {
+    background-color: #000000;
+    padding: 30px 10px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+    max-width: 100%;
+}
+
+.logo {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    margin: 0 auto 25px auto;
+    border: 2px solid #d4af37;
+    display: block;
+    object-fit: contain;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    padding: 0;
+    background-color: transparent;
+}
+
+.header h1 {
+    margin: 0 0 10px 0;
+    font-size: 32px;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 600;
+}
+
+.header p {
+    margin: 0;
+    font-size: 20px;
+    color: #d4af37;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+/* Menü Konteyner */
+.menu-container {
+    padding: 15px 10px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Kategori Stilleri */
+.category {
+    margin-bottom: 20px;
+    background-color: #111111;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #d4af37;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.1);
+}
+
+.category h2 {
+    font-size: 20px;
+    margin: 0;
+    padding: 15px;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #d4af37;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Menü Öğeleri */
+.menu-items {
+    padding: 15px;
+    display: none;
+}
+
+.menu-item {
+    padding: 12px 0;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.menu-item h3 {
+    font-size: 16px;
+    margin: 0;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.menu-item .price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #d4af37;
+    padding-left: 15px;
+}
+
+/* Footer Bölümü */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #111111;
+    margin-top: 20px;
+    border-top: 1px solid #d4af37;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #d4af37;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.instagram-logo {
+    width: 24px;
+    height: 24px;
+    filter: invert(70%) sepia(65%) saturate(385%) hue-rotate(6deg) brightness(89%) contrast(87%);
+}
+
+/* Animasyonlar ve Geçişler */
+.category h2 {
+    transition: all 0.3s ease;
+}
+
+.category h2:active {
+    background-color: #222222;
+}
+
+.category h2::after {
+    content: '+';
+    margin-left: auto;
+    font-size: 24px;
+}
+
+.category h2.active::after {
+    content: '-';
+}
+
+.menu-item {
+    transition: transform 0.2s ease;
+}
+
+.menu-item:active {
+    transform: scale(0.98);
+}
+
+/* Performans Optimizasyonları */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    box-sizing: border-box;
+}
+
+/* Mobil için düzenleme */
+@media (max-width: 480px) {
+    .logo {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 20px auto;
+    }
+
+    .header h1 {
+        font-size: 26px;
+    }
+
+    .header p {
+        font-size: 16px;
+    }
+
+    .category h2 {
+        font-size: 18px;
+    }
+
+    .menu-item h3 {
+        font-size: 15px;
+    }
+
+    .menu-item .price {
+        font-size: 15px;
+    }
+
+    .footer {
+        padding: 15px;
+    }
+}
+
+/* Scrollbar Özelleştirmesi */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d4af37;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b4941f;
+}
+
+/* Footer margin fix */
+main {
+    margin-bottom: 80px;
+}
