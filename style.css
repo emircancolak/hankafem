@@ -15,7 +15,13 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background: var(--bg);
+    /* Site-wide background: photo with a subtle dark overlay for legibility */
+    background-color: var(--bg);
+    background-image: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('yilbasiarka.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: #fff;
     max-width: 100vw;
     overflow-x: hidden;
@@ -73,16 +79,18 @@ body {
 .header-content {
     text-align: center;
     position: relative;
-    background-image: url('cilveli-kahve.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    padding-top: 100%; /* Makes it square - 1:1 aspect ratio */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px; /* compact padding instead of large padded square */
     width: 100%;
-    max-width: 400px; /* Maximum width for the square */
-    margin: 0 auto; /* Center the square */
-    border-radius: 12px; /* Optional: rounded corners */
-    overflow: hidden; /* Keeps the content inside border radius */
+    max-width: 400px; /* keep max width */
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    height: auto;
 }
 
 .header-content::before {
@@ -92,26 +100,111 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.9));
-    z-index: 1;
+    /* removed heavy black overlay so text and button aren't hidden */
+    background: none;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .header p {
-    position: absolute;
-    bottom: 20px; /* Position text at bottom */
-    left: 0;
-    right: 0;
-    margin: 0;
     font-size: 24px;
     color: var(--gold);
     font-style: italic;
-    z-index: 2;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     padding: 0 15px;
 }
 
-.feature-image {
+#details-button {
+    background-color: var(--gold);
+    color: var(--bg);
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+#details-button:hover {
+    background-color: #b8941f;
+}
+
+
+/* Preview container shown after clicking 'Detaylar' */
+.feature-preview {
     display: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    justify-content: center; /* center the preview */
+    margin-top: 8px;
+}
+
+.feature-image {
+    width: 360px;
+    height: auto;
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    transform: none;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.55);
+    transition: width .22s ease, transform .18s ease;
+}
+
+.feature-text {
+    color: var(--gold);
+    text-align: center;
+    max-width: 720px;
+    display: block;
+    padding: 0 12px;
+}
+
+.feature-text h2 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+.feature-text p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.6px;
+}
+
+/* Modal / lightbox for viewing the image */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.85);
+    z-index: 9999;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-overlay img {
+    max-width: 96%;
+    max-height: 96%;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+
+#details-button {
+    position: relative;
+    z-index: 2;
 }
 
 /* Ana içerik */
@@ -281,7 +374,7 @@ main, .menu-container {
 /* Responsive ayarlar */
 @media (max-width: 600px) {
    .header-content {
-        max-width: 300px; /* Smaller square on mobile */
+        max-width: 300px; /* Smaller container on mobile */
     }
     .header-left {
         gap: 10px;
@@ -304,6 +397,13 @@ main, .menu-container {
     
     .feature-image {
         max-width: 100%;
+        transform: none; /* don't rotate on small screens */
+        width: 260px;
+    }
+
+    .feature-preview {
+        flex-direction: column;
+        gap: 10px;
     }
     
     .category h2 {
