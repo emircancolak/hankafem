@@ -35,7 +35,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const detailsButton = document.getElementById('details-button');
     const featureImage = document.getElementById('feature-image');
     const featurePreview = document.getElementById('feature-preview');
-    
+    // Başlangıçta detay önizlemesini gizle (buton kapalı)
+    if (featurePreview) {
+        featurePreview.style.display = 'none';
+    }
+    if (detailsButton) {
+        detailsButton.classList.remove('active');
+    }
     // create modal overlay element (hidden until used)
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
@@ -54,11 +60,18 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
     }
 
-    detailsButton.addEventListener('click', function() {
-        if (!featurePreview) return;
-        const isHidden = window.getComputedStyle(featurePreview).display === 'none';
-        featurePreview.style.display = isHidden ? 'flex' : 'none';
-    });
+    if (detailsButton) {
+        detailsButton.addEventListener('click', function() {
+            if (!featurePreview) return;
+            const isHidden = window.getComputedStyle(featurePreview).display === 'none';
+            featurePreview.style.display = isHidden ? 'flex' : 'none';
+            if (isHidden) {
+                detailsButton.classList.add('active');
+            } else {
+                detailsButton.classList.remove('active');
+            }
+        });
+    }
 
     // open modal when the shown image is clicked
     if (featureImage) {

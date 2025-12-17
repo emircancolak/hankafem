@@ -123,10 +123,18 @@ body {
     border-radius: 5px;
     cursor: pointer;
     margin: 10px 0;
+    transition: background-color .2s ease, color .2s ease, box-shadow .18s ease;
 }
 
 #details-button:hover {
     background-color: #b8941f;
+}
+
+/* Active state when details are shown */
+#details-button.active {
+    background-color: #b23b3b; /* chosen active color */
+    color: #ffffff;
+    box-shadow: 0 8px 22px rgba(178,59,59,0.22);
 }
 
 
