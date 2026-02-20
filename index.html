@@ -23,7 +23,16 @@
 
   <main class="menu-container">
     <!-- Menü buraya Google Sheets'ten otomatik basılacak -->
-    <div id="menu-root"></div>
+    <div id="menu-root">
+      <div class="menu-loading" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <div>Menü yükleniyor…</div>
+        <div class="menu-loading-sub">Bağlantı yavaşsa birkaç saniye sürebilir.</div>
+      </div>
+    </div>
+    <noscript>
+      <div class="menu-state menu-error">Bu sayfanın menüyü göstermesi için JavaScript açık olmalı.</div>
+    </noscript>
 
     <!-- Not alanın aynı kalsın -->
     <div class="menu-note">

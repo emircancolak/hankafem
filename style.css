@@ -287,3 +287,69 @@ main, .menu-container { margin-bottom: 150px; }
   .menu-container { padding: 0 12px; margin: 18px auto 0; }
   main, .menu-container { margin-bottom: 180px; }
 }
+
+
+
+/* Loading / Error state */
+.menu-loading, .menu-state{
+  padding: 18px 16px;
+  border: 1px solid rgba(212,175,55,.25);
+  border-radius: 12px;
+  background: rgba(0,0,0,.35);
+  text-align: center;
+  margin: 10px 0 18px;
+}
+
+.menu-loading-sub{
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: .85;
+}
+
+.menu-error{
+  border-color: rgba(255,80,80,.35);
+}
+
+.menu-error-sub{
+  margin-top: 10px;
+  font-size: 13px;
+  opacity: .85;
+}
+
+.spinner{
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.18);
+  border-top-color: var(--gold);
+  margin: 0 auto 10px;
+  animation: spin .9s linear infinite;
+}
+
+@keyframes spin{
+  to { transform: rotate(360deg); }
+}
+
+/* Menü açıklama */
+.menu-desc{
+  opacity: .85;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* Accordion: class ile kontrol (inline style yok -> daha stabil) */
+.category .menu-items{ display:none; }
+.category.open .menu-items{ display:block; }
+
+/* Başlık ikon + renk */
+.category h2::after{
+  content: '+';
+}
+.category.open h2::after{
+  content: '-';
+  color: var(--bg);
+}
+.category.open h2{
+  background: var(--gold);
+  color: var(--bg);
+}
