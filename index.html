@@ -3,42 +3,296 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Han Kafem - QR Menü</title>
+  <title>İşletme Adı — Menü</title>
+
+  <!-- ═══ PWA: Manifest + Yükleme (Install) Meta Etiketleri ═══
+       manifest.json bu dosyayla AYNI klasörde (proje kökünde) olmalıdır.
+       Not: app.js içindeki setupDynamicManifest() fonksiyonu, sayfa
+       yüklendiğinde bu linkin href'ini, geçerli ?kafe= değerini içeren
+       DİNAMİK bir manifest ile TEKRAR yazar — bkz. app.js için detaylı
+       mimari açıklama. Bu satır, JS çalışmadan önceki an için ve
+       tarayıcı/SEO ön-taraması için statik bir fallback görevi görür. -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#d4af37" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="İşletme Adı" />
+  <link rel="apple-touch-icon" href="hankafemlogo.png" />
+  <link rel="icon" href="hankafemlogo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="header">
-    <div class="header-left">
-      <div class="logo-wrapper">
-        <img src="hankafemlogo.png" alt="Han Kafem Logo" class="logo">
+
+  <!-- ─── ADMIN APP (login sonrası görünür) ─── -->
+  <div id="admin-app">
+
+    <!-- ─── STICKY HEADER ─── -->
+    <header id="site-header">
+      <!-- Çevrimdışı Uyarı Banner'ı — app.js tarafından online/offline
+           olaylarına göre gösterilir/gizlenir. Header'ın İÇİNDE olduğu için
+           görünür olduğunda header'ın toplam yüksekliğini büyütür; sayfanın
+           geri kalanı (hero tam ekran, header üzerinde yüzer) bundan
+           ETKİLENMEZ — ekstra bir layout hesaplamasına gerek kalmaz. -->
+      <div id="offline-banner" class="offline-banner" hidden>
+        <span class="offline-banner-dot" aria-hidden="true"></span>
+        <span id="offline-banner-text"></span>
       </div>
-      <h1>HAN KAFEM</h1>
+      <div class="hdr-inner">
+        <div class="hdr-logo">
+          <img src="hankafemlogo.png" alt="İşletme Logosu" id="hdr-logo-img">
+        </div>
+        <div class="hdr-brand">
+          <span class="hdr-brand-name" id="hdr-brand-name">İŞLETME ADI</span>
+          <span class="hdr-brand-sub">DİJİTAL MENÜ</span>
+        </div>
+        <div class="hdr-actions">
+          <div class="lang-switcher" id="lang-switcher" role="group" aria-label="Dil seçimi / Language selector">
+            <button type="button" class="lang-switch-btn" id="lang-btn-tr" data-lang="tr" aria-pressed="true">TR</button>
+            <button type="button" class="lang-switch-btn" id="lang-btn-en" data-lang="en" aria-pressed="false">EN</button>
+          </div>
+        </div>
+      </div>
+      <!-- Günün Fırsatı — Promosyon Banner'ı — app.js → applyDailyDealBanner() -->
+      <div id="promo-banner" class="promo-banner" hidden>
+        <span class="promo-banner-icon" aria-hidden="true">✦</span>
+        <span id="promo-banner-text" class="promo-banner-text"></span>
+      </div>
+    </header>
+
+    <!-- ─── HERO (Fotoğraf Slider + Ken Burns Efekti) ─── -->
+    <section id="hero">
+      <!-- Slider container — JS tarafından <img> elemanları buraya enjekte edilir -->
+      <div id="hero-slider" aria-hidden="true"></div>
+
+      <div class="hero-overlay"></div>
+      <div class="hero-glow-left"></div>
+      <div class="hero-glow-right"></div>
+
+      <!-- Slider dot göstergeleri — JS tarafından doldurulur -->
+      <div id="hero-dots" class="hero-dots"></div>
+
+      <div class="hero-text-block">
+        <p class="hero-eyebrow" id="hero-eyebrow">MENÜMÜZ</p>
+        <h2 class="hero-title" id="hero-title">Menümüze<br><em id="hero-title-em">Hoş Geldiniz</em></h2>
+        <p class="hero-sub" id="hero-sub">Lezzetli seçeneklerimizi keşfetmeye hazır mısınız?</p>
+        <div class="hero-divider">
+          <span></span><span class="hero-divider-gem">◆</span><span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SEARCH BAR ─── -->
+    <div id="search-bar-wrap">
+      <div class="search-bar-inner">
+        <div class="search-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
+        <input
+          type="text"
+          id="search-input"
+          class="search-input"
+          placeholder="Menüde ara…"
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"
+        />
+        <button id="search-clear" class="search-clear" aria-label="Aramayı temizle" hidden>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
     </div>
 
-    <div class="header-content">
-      <p>Cilveli Kahvemizi Denediniz mi?</p>
-      <img src="cilveli-kahve.jpg" alt="Cilveli Kahve" class="feature-image">
+    <!-- ─── CATEGORY TABS ─── -->
+    <nav id="cat-nav" aria-label="Kategori filtresi">
+      <div class="cat-nav-inner" id="cat-nav-inner">
+        <!-- JS ile doldurulacak -->
+      </div>
+    </nav>
+
+    <!-- ─── MENU ─── -->
+    <main id="menu-main">
+      <div id="menu-root">
+        <div class="skeleton-grid" aria-hidden="true">
+          <div class="skeleton-card">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line-title"></div>
+              <div class="skeleton-line skeleton-line-desc"></div>
+              <div class="skeleton-line skeleton-line-desc2"></div>
+              <div class="skeleton-line skeleton-line-price"></div>
+            </div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line-title"></div>
+              <div class="skeleton-line skeleton-line-desc"></div>
+              <div class="skeleton-line skeleton-line-desc2"></div>
+              <div class="skeleton-line skeleton-line-price"></div>
+            </div>
+          </div>
+          <div class="skeleton-card">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line-title"></div>
+              <div class="skeleton-line skeleton-line-desc"></div>
+              <div class="skeleton-line skeleton-line-desc2"></div>
+              <div class="skeleton-line skeleton-line-price"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alıntı notu -->
+      <div class="closing-note" id="closing-note">
+        <div class="closing-note-inner">
+          <div class="cn-ornament">✦ ✦ ✦</div>
+          <p class="cn-text">Afiyet Olsun</p>
+          <p class="cn-author">— İşletme Adı</p>
+        </div>
+      </div>
+
+      <!-- ─── MENÜYÜ DEĞERLENDİR BUTONU ───
+           Artık fixed değil: dükkan mesajının (closing-note) hemen altında,
+           normal sayfa akışında duruyor. Böylece sabit (fixed) footer/
+           Instagram linkiyle ASLA çakışmaz — kendi yerini kapmış oluyor. -->
+      <div class="review-open-btn-wrap">
+        <button id="review-open-btn" class="review-open-btn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H9l-4.5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5v-8Z"/>
+            <circle cx="8.5" cy="9.5" r="0.9" fill="currentColor" stroke="none"/>
+            <circle cx="12" cy="9.5" r="0.9" fill="currentColor" stroke="none"/>
+            <circle cx="15.5" cy="9.5" r="0.9" fill="currentColor" stroke="none"/>
+          </svg>
+          <span id="review-open-btn-label">Menüyü Değerlendir</span>
+        </button>
+      </div>
+    </main>
+
+    <!-- ─── FOOTER ─── -->
+    <footer id="site-footer">
+      <a href="#" class="footer-ig" id="footer-ig-link" target="_blank" rel="noopener" style="display:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        <span id="footer-ig-username">Instagram</span>
+      </a>
+    </footer>
+
+    <!-- ─── SCROLL TO TOP ─── -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Yukarı çık" hidden>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"/>
+      </svg>
+    </button>
+
+    <!-- ─── TOAST (bildirim) ─── -->
+    <div id="toast" class="toast" hidden></div>
+
+    <!-- ═══════════════════════════════════════════════════
+         LIGHTBOX MODAL — Ürün Detayı (Salt Görünüm)
+    ═══════════════════════════════════════════════════ -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Ürün detayı" hidden>
+      <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+      <div class="lightbox-panel">
+        <button class="lightbox-close" id="lightbox-close" aria-label="Kapat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+
+        <!-- VİTRİN MODU (mevcut tasarım, salt görünüm) -->
+        <div id="lightbox-view-mode">
+          <div class="lightbox-img-wrap" id="lightbox-img-wrap"></div>
+          <div class="lightbox-body">
+            <p class="lightbox-badge-line" id="lightbox-badge-line"></p>
+            <h3 class="lightbox-name" id="lightbox-name"></h3>
+            <div id="lightbox-tags"></div>
+            <p class="lightbox-desc" id="lightbox-desc"></p>
+            <div id="lightbox-extras"></div>
+            <div class="lightbox-price-row">
+              <span class="lightbox-price" id="lightbox-price"></span>
+              <span class="lightbox-price-suffix">₺</span>
+            </div>
+            <div id="lightbox-crosssell"></div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </header>
 
-  <main class="menu-container">
-    <!-- Menü buraya Google Sheets'ten otomatik basılacak -->
-    <div id="menu-root"></div>
+    <!-- ═══════════════════════════════════════════════════
+         MENÜ DEĞERLENDİRME MODALI (Rate-Limited — günde 1 kez)
+    ═══════════════════════════════════════════════════ -->
+    <div id="review-modal" class="review-modal" hidden>
+      <div class="review-modal-backdrop" id="review-modal-backdrop"></div>
+      <div class="review-modal-panel">
+        <button class="lightbox-close" id="review-modal-close" type="button" aria-label="Kapat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+        <p class="review-modal-title" id="review-modal-title">Menüyü Değerlendir</p>
+        <p class="review-modal-sub" id="review-modal-sub">Deneyiminizi bizimle paylaşın.</p>
 
-    <!-- Not alanın aynı kalsın -->
-    <div class="menu-note">
-      <div class="menu-note-text">2026 Hepimize Sağlık, Mutluluk ve Huzur Getirsin</div>
-      <div class="menu-note-author">— Han Kafem</div>
+        <div id="review-form-wrap">
+          <div class="review-star-picker" id="review-star-picker">
+            <button type="button" class="review-star" data-star="1" aria-label="1 yıldız">★</button>
+            <button type="button" class="review-star" data-star="2" aria-label="2 yıldız">★</button>
+            <button type="button" class="review-star" data-star="3" aria-label="3 yıldız">★</button>
+            <button type="button" class="review-star" data-star="4" aria-label="4 yıldız">★</button>
+            <button type="button" class="review-star" data-star="5" aria-label="5 yıldız">★</button>
+          </div>
+          <textarea id="review-comment" class="review-textarea" placeholder="Yorumunuz (opsiyonel)…" rows="3" maxlength="300"></textarea>
+          <button type="button" class="review-submit-btn" id="review-submit-btn">
+            <span class="review-submit-btn-text">Gönder</span>
+            <span class="review-submit-btn-spinner" hidden></span>
+          </button>
+          <p class="review-error" id="review-error" hidden></p>
+        </div>
+
+        <div id="review-already-done" hidden>
+          <p class="review-thanks-text" id="review-already-done-text">Bugün için değerlendirmenizi zaten aldık. Yarın tekrar bekleriz! 🙏</p>
+        </div>
+
+        <div id="review-success" hidden>
+          <p class="review-thanks-text" id="review-success-text">Teşekkürler! Değerlendirmeniz bizim için çok değerli. ✨</p>
+        </div>
+      </div>
     </div>
-  </main>
 
-  <footer class="footer">
-    <a href="https://instagram.com/hankafem" class="social-link">
-      <img src="instragramlogo.png" alt="Instagram" class="instagram-logo">
-      <span>hankafem</span>
-    </a>
-  </footer>
+  </div>
 
-  <script src="script.js"></script>
+  <!-- ─── 404 / GEÇERSİZ QR — FALLBACK EKRANI ───
+       Varsayılan olarak gizli. app.js, ?kafe= parametresi eksikse
+       veya Storage'da ilgili JSON bulunamazsa (404/403) bu ekranı açar. -->
+  <div id="fatal-error-overlay" class="fatal-error-overlay" hidden>
+    <div class="fatal-error-box">
+      <div class="fatal-error-icon">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1.2"/>
+          <rect x="14" y="3" width="7" height="7" rx="1.2"/>
+          <rect x="3" y="14" width="7" height="7" rx="1.2"/>
+          <line x1="14.5" y1="14.5" x2="20.5" y2="20.5"/>
+          <line x1="20.5" y1="14.5" x2="14.5" y2="20.5"/>
+        </svg>
+      </div>
+      <h2 class="fatal-error-title" id="fatal-error-title">İşletme Bulunamadı veya QR Kod Geçersiz</h2>
+      <p class="fatal-error-detail" id="fatal-error-detail">Bu bağlantı geçersiz görünüyor. Lütfen QR kodunuzu tekrar taratın.</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>

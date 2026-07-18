@@ -1,0 +1,36 @@
+{
+  "name": "İşletme Adı — Dijital Menü",
+  "short_name": "İşletme Adı",
+  "description": "QR kodunuzu okutarak menümüzü görüntüleyin — internet bağlantınız kesilse bile daha önce açtığınız menüyü gezmeye devam edebilirsiniz.",
+  "start_url": "./index.html",
+  "id": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#080808",
+  "theme_color": "#d4af37",
+  "lang": "tr",
+  "dir": "ltr",
+  "categories": ["food", "shopping", "business"],
+  "icons": [
+    {
+      "src": "hankafemlogo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
