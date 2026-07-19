@@ -153,26 +153,9 @@ async function networkFirstFallingBackToCache(request, cacheName) {
 
   try {
     const response = await fetch(request);
-
-    // ÖNEMLİ — 206 PARTIAL CONTENT DÜZELTMESİ:
-    // response.ok, HTTP 200-299 arasındaki HER durum kodu için true döner —
-    // bu da 206 (Partial Content) için de geçerlidir. <video> etiketleri
-    // tarayıcı tarafından "Range" header'ı ile (dosyanın tamamı yerine belirli
-    // byte aralığı) istenir ve sunucu buna 206 ile cevap verir. Cache API'nin
-    // put() metodu ise KISMİ (206) yanıtları kabul etmez ve "Failed to
-    // execute 'put' on 'Cache': Partial response (status code 206) is
-    // unsupported" hatasıyla patlar.
-    //
-    // Bu yüzden SADECE tam (status === 200) VE Range isteği OLMAYAN
-    // yanıtları önbelleğe yazıyoruz. Range istekleri / 206 yanıtları normal
-    // şekilde tarayıcıya döner, sadece önbelleğe alınmaz — video her zaman
-    // ağdan akıtılır (offline modda video oynamayabilir, ama bu, menü verisi
-    // ve statik kabuğun offline çalışması gereken asıl önceliğimizi bozmaz).
-    const isRangeRequest = request.headers.has("range");
-    if (response && response.status === 200 && !isRangeRequest) {
+    if (response && response.ok) {
       cache.put(request, response.clone());
     }
-
     return response;
   } catch {
     // "ignoreSearch: true" → "./index.html?kafe=ABC123" isteği, önbellekte

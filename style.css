@@ -487,6 +487,23 @@ img { display: block; max-width: 100%; }
 }
 .hero-divider.is-hidden { display: none; }
 
+.hero-cta-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 22px;
+  padding: 12px 26px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--gold-dk), var(--gold));
+  color: var(--obsidian);
+  font-family: var(--font-ui);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(212,175,55,0.35);
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
+}
+.hero-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(212,175,55,0.5); }
+.hero-cta-btn::after { content: "→"; font-size: 13px; }
+
 /* ════════════════════════════════════
    SEARCH BAR
 ════════════════════════════════════ */
@@ -625,22 +642,6 @@ img { display: block; max-width: 100%; }
   100% { background-position: -200% 0; }
 }
 
-/* Fotoğrafsız mod: gerçek kartlarla aynı yatay/kompakt hizada */
-body.layout-no-photo .skeleton-grid { display: flex; flex-direction: column; gap: 12px; }
-@media (min-width: 768px) {
-  body.layout-no-photo .skeleton-grid { display: grid; grid-template-columns: repeat(2, 1fr); }
-}
-body.layout-no-photo .skeleton-card { border-left: 3px solid var(--border-h); }
-body.layout-no-photo .skeleton-img { display: none; }
-body.layout-no-photo .skeleton-body {
-  flex-direction: row; align-items: center; justify-content: space-between;
-  padding: 20px 20px; min-height: 76px;
-}
-body.layout-no-photo .skeleton-line-desc,
-body.layout-no-photo .skeleton-line-desc2 { display: none; }
-body.layout-no-photo .skeleton-line-title { width: 45%; }
-body.layout-no-photo .skeleton-line-price { width: 20%; margin-top: 0; }
-
 /* ─ Error ─ */
 .lux-error {
   padding: 30px 20px; text-align: center;
@@ -721,6 +722,12 @@ body.layout-no-photo .skeleton-line-price { width: 20%; margin-top: 0; }
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 16px;
 }
+.cards-grid.grid-cols-2 { grid-template-columns: repeat(2, 1fr) !important; }
+.cards-grid.grid-cols-3 { grid-template-columns: repeat(3, 1fr) !important; }
+/* Çok dar ekranlarda 3'lü grid okunaksızlaşmasın diye 2'ye düşer */
+@media (max-width: 420px) {
+  .cards-grid.grid-cols-3 { grid-template-columns: repeat(2, 1fr) !important; }
+}
 
 /* ─ Product Card ─ */
 .prod-card {
@@ -765,127 +772,6 @@ body.layout-no-photo .skeleton-line-price { width: 20%; margin-top: 0; }
 .prod-img-gradient {
   position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
   background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-}
-
-/* ─── LAYOUT: Fotoğrafsız Mod (Zarif "Fine Dining" Liste) ───
-   Kutu yok, arka plan yok, sol altın çizgi yok. Ürün adı solda, fiyat
-   sağda; aradaki boşluğu flex-grow ile genişleyen noktalı bir çizgi
-   dolduruyor — klasik bir restoran menüsü gibi. */
-body.layout-no-photo .prod-img-wrap { display: none; }
-
-/* Mobilde tek sütun akan ince bir liste, tablette/PC'de 2 sütun */
-body.layout-no-photo .cards-grid {
-  display: flex !important;
-  flex-direction: column;
-  gap: 0;
-}
-@media (min-width: 768px) {
-  body.layout-no-photo .cards-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 40px;
-  }
-}
-
-/* Kart artık bir "kutu" değil — sadece ince bir alt ayraç çizgisi */
-body.layout-no-photo .prod-card {
-  background: none;
-  border: none;
-  border-radius: 0;
-  border-bottom: 1px solid var(--border);
-  text-align: left;
-  padding: 15px 2px;
-  min-height: 0;
-  display: block;
-}
-body.layout-no-photo .cards-grid > .prod-card:first-child { padding-top: 0; }
-body.layout-no-photo .prod-card:hover,
-body.layout-no-photo .prod-card.touched {
-  transform: none;
-  box-shadow: none;
-  border-color: var(--border-h);
-}
-body.layout-no-photo .prod-card::before { display: none; }
-
-/* İsim + fiyat aynı satırda; aralarını nokta çizgi (leader) dolduruyor */
-body.layout-no-photo .prod-body {
-  padding: 0;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  column-gap: 10px;
-  row-gap: 5px;
-  align-items: baseline;
-}
-
-body.layout-no-photo .prod-name {
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  align-items: baseline;
-  overflow: hidden;
-  font-size: 17px;
-  font-weight: 500;
-  margin: 0;
-}
-
-/* Fine-dining nokta çizgisi: boş alanı flex-grow ile dolduran,
-   alt kenarı noktalı (dotted) bir sözde eleman */
-body.layout-no-photo .prod-name::after {
-  content: "";
-  order: 2;
-  flex: 1 1 auto;
-  min-width: 16px;
-  margin: 0 8px 3px;
-  border-bottom: 1px dotted var(--muted2);
-}
-
-body.layout-no-photo .prod-desc {
-  grid-column: 1 / -1;
-  font-size: 11.5px;
-  opacity: 0.65;
-  margin: 0;
-  line-height: 1.55;
-}
-
-body.layout-no-photo .prod-tags,
-body.layout-no-photo .prod-extras {
-  grid-column: 1 / -1;
-}
-
-body.layout-no-photo .prod-footer {
-  grid-column: 2;
-  grid-row: 1;
-  justify-content: flex-end;
-  margin: 0;
-}
-
-body.layout-no-photo .prod-price {
-  font-size: 18px;
-  white-space: nowrap;
-}
-
-body.layout-no-photo .prod-dot { display: none; }
-
-/* Rozet: kutu olmadığı için isim satırının hemen üstüne, sade biçimde */
-body.layout-no-photo .prod-badge {
-  position: absolute;
-  top: 2px;
-  right: 0;
-  left: auto;
-  margin: 0;
-  padding: 3px 9px;
-  font-size: 7.5px;
-  box-shadow: none;
-}
-
-/* Sadece Admin Paneli İçin: Düzenle/Sil ikonları fiyatın üstüne binmesin diye */
-body.layout-no-photo .prod-card:has(.prod-card-admin-icons) .prod-footer {
-  padding-right: 76px;
-}
-body.layout-no-photo .prod-card-admin-icons {
-  top: 15px;
-  transform: none;
 }
 
 /* ─ Badge ─ */
@@ -934,6 +820,39 @@ body.layout-no-photo .prod-card-admin-icons {
   box-shadow: 0 0 8px rgba(45,90,78,0.6);
 }
 
+/* ─── KARMA MOD: Fotoğrafsız Ürün Kartı ("Boxed" Fine-Dining Kutucuk) ───
+   .prod-card'ın mevcut border/hover/panel stilini miras alır; sadece iç
+   düzeni (görsel yok, footer alt kenara sabit) ve rozet konumunu değiştirir. */
+.prod-card--boxed {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.prod-card--boxed::before {
+  content: "";
+  position: absolute; top: 0; left: 20px; right: 20px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.5;
+}
+.prod-card--boxed .prod-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.boxed-card-top {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 10px; margin-bottom: 6px;
+}
+.prod-card--boxed .prod-name { margin-bottom: 0; flex: 1; }
+.prod-card--boxed .prod-badge {
+  position: static; margin: 0; box-shadow: none; flex-shrink: 0; white-space: nowrap;
+}
+.prod-card--boxed .prod-footer {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px dotted var(--border);
+}
+
 /* ─ Etiketler (Vegan / Glutensiz / Acı vb.) ─ */
 .prod-tags {
   display: flex; flex-wrap: wrap; gap: 6px;
@@ -970,13 +889,6 @@ body.layout-no-photo .prod-card-admin-icons {
 .prod-extra-item + .prod-extra-item { border-top: 1px solid var(--border); }
 .prod-extra-name { color: var(--muted); }
 .prod-extra-price { color: var(--gold); font-weight: 600; white-space: nowrap; }
-
-/* Fotoğrafsız (kompakt liste) modunda etiket/ekstralar her zaman sol
-   sütunda tam genişlikte aksın; fiyat sütununun altına kaymasınlar. */
-body.layout-no-photo .prod-tags,
-body.layout-no-photo .prod-extras {
-  grid-column: 1 / 2;
-}
 
 /* ─ Closing Note ─ */
 .closing-note {
